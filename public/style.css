@@ -4,53 +4,27 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: sans-serif;
-  margin: 2em 1em;
-  line-height: 1.5em;
-}
-
-h1 {
-  font-style: italic;
-  color: #373fff;
-  max-width: calc(100% - 5rem);
-  line-height: 1.1;
-}
-
-form {
-  background-color: #eee;
-  display: grid;
-  grid-gap: 1em;
-  padding: 1em;
-  max-width: 40ch;
-}
-
-input {
-  border: 1px solid silver;
-  display: block;
-  font-size: 16px;
+#header_instruction {
+  background: #e6e6fa;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100px;
+  height: 100px;
+  font-size: 40px;
+  border-radius: 5px;
   margin-bottom: 10px;
-  padding: 5px;
-  width: 100%;
 }
 
-form button {
-  background-color: #bbbbf2;
-  border: 2px solid currentColor;
-  border-radius: .25em;
-  cursor: pointer;
-  font-size: inherit;
-  line-height: 1.4em;
-  padding: 0.25em 1em;
-  max-width: 20ch;
+#record-section, #regForm {
+  background: #fffdea;
 }
 
-form button:hover {
-  background-color: lavender;
+table, table td, table th{
+  border : 1px solid #000000;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-footer {
-  margin-top: 3em;
-  padding-top: 1.5em;
-  border-top: 1px solid lightgrey;
+.score_mg {
+  width: 50%;
 }
