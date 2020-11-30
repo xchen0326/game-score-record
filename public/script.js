@@ -146,9 +146,10 @@ function studentRegister(oButton) {
             console.log("sent");
             uid = response
             console.log(response)
-        });
-
-    addRow(formEle[0].value, formEle[1].value, formEle[2].value, uid)
+        })
+        .then(response => {
+            addRow(formEle[0].value, formEle[1].value, formEle[2].value, uid)
+        })
 
 
 }
