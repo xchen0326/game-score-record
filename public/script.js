@@ -75,7 +75,7 @@ function addRow(filledName, filledGender, filledScore, uid) {
         else if (c == 3) {
             var ele1 = document.createElement('select');
             ele1.setAttribute('style', 'width:170px')
-            ele1.setAttribute('id', 'activity_score')
+            ele1.setAttribute('id', 'stu_activity_score')
             td.appendChild(ele1);
             for (var i = 0; i < 10; i++) {
                 var op = new Option();
@@ -134,10 +134,16 @@ function addRow(filledName, filledGender, filledScore, uid) {
             button3.setAttribute('style', 'width:100%');
 
             button3.onclick = function(){
+                stu_name = button3.parentNode.parentNode.querySelector('#stu_name')
+                stu_gender = button3.parentNode.parentNode.querySelector('#stu_gender')
+                stu_activity_score = button3.parentNode.parentNode.querySelector('#stu_activity_score')
                 fetch("/update", {
                     method: "POST",
                     body: JSON.stringify({
-                        student_id : uid
+                        student_id : uid,
+                        student_name : stu_name.value,
+                        student_gender : stu_gender.value,
+                        student_activity_score : stu_activity_score.value
                     }),
                     headers: {
                         "Content-Type": "application/json"
@@ -148,10 +154,9 @@ function addRow(filledName, filledGender, filledScore, uid) {
                         console.log("sent");
                         console.log(response)
                     })
-                score_mg_ls = button3.parentNode.parentNode.querySelectorAll('#stu_name')
-                for (var i = 0; i < score_mg_ls.length; i++){
-                    console.log(score_mg_ls[i].value)
-                }
+                // for (var i = 0; i < score_mg_ls.length; i++){
+                //     console.log(student_gender.value)
+                // }
                 console.log()
                 // console.log('clicked')
             }
@@ -183,7 +188,7 @@ function studentRegister(oButton) {
         body: JSON.stringify({
             student_name : formEle[0].value,
             student_gender : formEle[1].value,
-            student_iniScore : formEle[2].value,
+            student_activity_score : formEle[2].value,
         }),
         headers: {
             "Content-Type": "application/json"
@@ -200,8 +205,10 @@ function studentRegister(oButton) {
         })
 }
 
-function updateRecord(oButton){
-    console.log('clicked.')
-    // oButton.parentNode.parentNode.querySelectorAll('.stuRegister')
+function login(){
+    fetch("/loginto", {
+        method: "Get",
+    })
+        .then(response => response.json())
 }
 

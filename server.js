@@ -13,7 +13,7 @@ app.use(express.static("public"));
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
+  response.sendFile(__dirname + "/views/login.html");
 });
 
 
@@ -51,7 +51,14 @@ app.post('/delete', bodyparser.json(), function( req, res ){
 
 app.post('/update',  bodyparser.json(), function( req, res ){
     console.log(req.body)
-    res.json({success: req.body.student_id})
+    // res.json({success: req.body.student_activity_score})
+    collection.replaceOne({_id:mongodb.ObjectId(req.body.student_id)},{student_name:req.body.student_gender
+        ,student_gender:req.body.student_gender,
+        student_activity_score:req.body.student_activity_score
+        ,student_id:req.body.student_id})
+        .then(result=>{
+            res.json(result)
+        })
 })
 
 app.get('/populate', function( req, res ){
@@ -60,5 +67,10 @@ app.get('/populate', function( req, res ){
             res.end(JSON.stringify(items))
         })
 })
+
+app.get('/loginto', function( req, res ){
+    res.sendFile(__dirname + "/views/index.html");
+})
+
 
 
