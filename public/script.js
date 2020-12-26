@@ -5,7 +5,7 @@ console.log("hello world :o");
 
 
 var arrHead = new Array();
-arrHead = ['', 'Student Name', 'Gender', 'Score', 'Score Add/Deduct']; // table headers.
+arrHead = ['', 'Student Name', 'Gender', 'Score', 'Score Add/Deduct', 'Update Change']; // table headers.
 
 // first create a TABLE structure by adding few headers.
 function createTable() {
@@ -72,6 +72,22 @@ function addRow(filledName, filledGender, filledScore, uid) {
 
             td.appendChild(button);
         }
+        else if (c == 3) {
+            var ele1 = document.createElement('select');
+            ele1.setAttribute('style', 'width:170px')
+            ele1.setAttribute('id', 'activity_score')
+            td.appendChild(ele1);
+            for (var i = 0; i < 10; i++) {
+                var op = new Option();
+                op.value = i;
+                op.text = i+"";
+                ele1.options.add(op);
+                if (i === parseInt(filledScore)){
+                    ele1.options[i].selected = true
+                }
+            }
+
+        }
         else if (c < 4) {
             // the 2nd, 3rd and 4th column, will have textbox.
             var ele = document.createElement('input');
@@ -80,16 +96,18 @@ function addRow(filledName, filledGender, filledScore, uid) {
 
             if (c == 1) {
                 ele.value = filledName
+                ele.setAttribute('id', 'stu_name')
             }
             else if (c == 2) {
                 ele.value = filledGender
+                ele.setAttribute('id', 'stu_gender')
             }
-            else if (c == 3) {
-                ele.value = filledScore
-            }
+            // else if (c == 3) {
+            //     ele.value = filledScore
+            // }
             td.appendChild(ele);
         }
-        else {
+        else if (c == 4){
             var button1 = document.createElement('input');
 
             // set the attributes.
@@ -108,6 +126,36 @@ function addRow(filledName, filledGender, filledScore, uid) {
             button2.setAttribute('class', 'score_mg');
             button2.setAttribute('onclick', '');
             td.appendChild(button2);
+        }
+        else {
+            var button3 = document.createElement('input');
+            button3.setAttribute('type', 'button');
+            button3.setAttribute('value', 'Update');
+            button3.setAttribute('style', 'width:100%');
+
+            button3.onclick = function(){
+                fetch("/update", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        student_id : uid
+                    }),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(response => response.json())
+                    .then(response => {
+                        console.log("sent");
+                        console.log(response)
+                    })
+                score_mg_ls = button3.parentNode.parentNode.querySelectorAll('#stu_name')
+                for (var i = 0; i < score_mg_ls.length; i++){
+                    console.log(score_mg_ls[i].value)
+                }
+                console.log()
+                // console.log('clicked')
+            }
+            td.appendChild(button3);
         }
     }
 }
@@ -150,7 +198,10 @@ function studentRegister(oButton) {
         .then(response => {
             addRow(formEle[0].value, formEle[1].value, formEle[2].value, uid)
         })
+}
 
-
+function updateRecord(oButton){
+    console.log('clicked.')
+    // oButton.parentNode.parentNode.querySelectorAll('.stuRegister')
 }
 

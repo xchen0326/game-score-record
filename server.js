@@ -49,6 +49,10 @@ app.post('/delete', bodyparser.json(), function( req, res ){
     res.json({ success: req.body.uid })
 })
 
+app.post('/update',  bodyparser.json(), function( req, res ){
+    console.log(req.body)
+    res.json({success: req.body.student_id})
+})
 
 app.get('/populate', function( req, res ){
     collection.find({}).toArray()
@@ -56,4 +60,5 @@ app.get('/populate', function( req, res ){
             res.end(JSON.stringify(items))
         })
 })
+
 
