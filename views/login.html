@@ -6,6 +6,13 @@
     <script src="/script.js" defer></script>
 </head>
 <body>
-<input type="button" value="login" onclick="login()">
+<input type="button" value="login" id="goLogin" >
 </body>
+<script>
+    var gologin = document.getElementById("goLogin")
+    gologin.onclick = function(){
+        console.log("logged")
+        window.location.href="/loginto"
+    }
+</script>
 </html>

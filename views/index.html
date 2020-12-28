@@ -29,6 +29,9 @@
     <input type="text" class="stuRegister">
     <input type="text" class="stuRegister">
     <input type="text" class="stuRegister">
+    <input type="text" class="stuRegister">
+    <input type="text" class="stuRegister">
+    <input type="text" class="stuRegister">
     <input type="button" id="submitRegForm" value="kk" onclick="studentRegister(this)">
   </div>
 
@@ -38,4 +41,20 @@
 
 
   </body>
+  <script>
+  window.onload = function(){
+  createTable()
+  fetch("/populate", {
+  method: "Get",
+  })
+  .then(response => response.json())
+  .then(response => {
+  for (obj in response) {
+  let rowObj = response[obj]
+  addRow(rowObj.student_name, rowObj.student_gender, rowObj.student_activity_score,rowObj.student_bookb_num,rowObj.student_bookc_num, rowObj.student_unit_num, rowObj._id)
+  // console.log(response[obj].student_name)
+  }
+  })
+  }
+  </script>
 </html>

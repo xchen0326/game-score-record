@@ -5,7 +5,7 @@ console.log("hello world :o");
 
 
 var arrHead = new Array();
-arrHead = ['', 'Student Name', 'Gender', 'Score', 'Score Add/Deduct', 'Update Change']; // table headers.
+arrHead = ['', '学生姓名', '学生其他备注', '群活动分', '阅读(B级)打卡本数', '阅读(C级)打卡本数', '拼读打卡单元数', '更新数据', '等级']; // table headers.
 
 // first create a TABLE structure by adding few headers.
 function createTable() {
@@ -44,7 +44,7 @@ function removeRow(oButton) {
 }
 
 // function to add new row.
-function addRow(filledName, filledGender, filledScore, uid) {
+function addRow(filledName, filledGender, filledScore, filledBnum, filledCnum, filledUnit, uid) {
     var scoreTable = document.getElementById('scoreTable');
 
     var rowCnt = scoreTable.rows.length;    // get the number of rows.
@@ -68,22 +68,20 @@ function addRow(filledName, filledGender, filledScore, uid) {
             // add button's "onclick" event.
             button.setAttribute('onclick', 'removeRow(this)');
 
-
-
             td.appendChild(button);
         }
         else if (c == 3) {
-            var ele1 = document.createElement('select');
-            ele1.setAttribute('style', 'width:170px')
-            ele1.setAttribute('id', 'stu_activity_score')
-            td.appendChild(ele1);
-            for (var i = 0; i < 10; i++) {
+            var selectEle1 = document.createElement('select');
+            selectEle1.setAttribute('style', 'width:170px')
+            selectEle1.setAttribute('id', 'stu_activity_score')
+            td.appendChild(selectEle1);
+            for (var i = 0; i < 71; i++) {
                 var op = new Option();
                 op.value = i;
                 op.text = i+"";
-                ele1.options.add(op);
+                selectEle1.options.add(op);
                 if (i === parseInt(filledScore)){
-                    ele1.options[i].selected = true
+                    selectEle1.options[i].selected = true
                 }
             }
 
@@ -102,32 +100,54 @@ function addRow(filledName, filledGender, filledScore, uid) {
                 ele.value = filledGender
                 ele.setAttribute('id', 'stu_gender')
             }
-            // else if (c == 3) {
-            //     ele.value = filledScore
-            // }
             td.appendChild(ele);
         }
         else if (c == 4){
-            var button1 = document.createElement('input');
-
-            // set the attributes.
-            button1.setAttribute('type', 'button');
-            button1.setAttribute('value', 'Add');
-            button1.setAttribute('class', 'score_mg');
-            button1.setAttribute('onclick', '');
-            td.appendChild(button1);
-
-
-            var button2 = document.createElement('input');
-
-            // set the attributes.
-            button2.setAttribute('type', 'button');
-            button2.setAttribute('value', 'Deduct');
-            button2.setAttribute('class', 'score_mg');
-            button2.setAttribute('onclick', '');
-            td.appendChild(button2);
+            var selectEle2 = document.createElement('select');
+            selectEle2.setAttribute('style', 'width:170px')
+            selectEle2.setAttribute('id', 'stu_bookb_num')
+            td.appendChild(selectEle2);
+            for (var i = 0; i < 50; i++) {
+                var op = new Option();
+                op.value = i;
+                op.text = i+"";
+                selectEle2.options.add(op);
+                if (i === parseInt(filledBnum)){
+                    selectEle2.options[i].selected = true
+                }
+            }
         }
-        else {
+        else if (c == 5){
+            var selectEle3 = document.createElement('select');
+            selectEle3.setAttribute('style', 'width:170px')
+            selectEle3.setAttribute('id', 'stu_bookc_num')
+            td.appendChild(selectEle3);
+            for (var i = 0; i < 50; i++) {
+                var op = new Option();
+                op.value = i;
+                op.text = i+"";
+                selectEle3.options.add(op);
+                if (i === parseInt(filledCnum)){
+                    selectEle3.options[i].selected = true
+                }
+            }
+        }
+        else if (c == 6){
+            var selectEle4 = document.createElement('select');
+            selectEle4.setAttribute('style', 'width:170px')
+            selectEle4.setAttribute('id', 'stu_unit_num')
+            td.appendChild(selectEle4);
+            for (var i = 0; i < 50; i++) {
+                var op = new Option();
+                op.value = i;
+                op.text = i+"";
+                selectEle4.options.add(op);
+                if (i === parseInt(filledUnit)){
+                    selectEle4.options[i].selected = true
+                }
+            }
+        }
+        else if (c > 6 && c < arrHead.length-1) {
             var button3 = document.createElement('input');
             button3.setAttribute('type', 'button');
             button3.setAttribute('value', 'Update');
@@ -137,13 +157,22 @@ function addRow(filledName, filledGender, filledScore, uid) {
                 stu_name = button3.parentNode.parentNode.querySelector('#stu_name')
                 stu_gender = button3.parentNode.parentNode.querySelector('#stu_gender')
                 stu_activity_score = button3.parentNode.parentNode.querySelector('#stu_activity_score')
+                stu_bookb_num = button3.parentNode.parentNode.querySelector('#stu_bookb_num')
+                stu_bookc_num = button3.parentNode.parentNode.querySelector('#stu_bookc_num')
+                stu_unit_num = button3.parentNode.parentNode.querySelector('#stu_unit_num')
+
+                let label = button3.parentNode.parentNode.querySelector('#stu_label')
+
                 fetch("/update", {
                     method: "POST",
                     body: JSON.stringify({
                         student_id : uid,
                         student_name : stu_name.value,
                         student_gender : stu_gender.value,
-                        student_activity_score : stu_activity_score.value
+                        student_activity_score : stu_activity_score.value,
+                        student_bookb_num : stu_bookb_num.value,
+                        student_bookc_num : stu_bookc_num.value,
+                        student_unit_num : stu_unit_num.value
                     }),
                     headers: {
                         "Content-Type": "application/json"
@@ -152,33 +181,46 @@ function addRow(filledName, filledGender, filledScore, uid) {
                     .then(response => response.json())
                     .then(response => {
                         console.log("sent");
-                        console.log(response)
                     })
-                // for (var i = 0; i < score_mg_ls.length; i++){
-                //     console.log(student_gender.value)
-                // }
-                console.log()
-                // console.log('clicked')
             }
             td.appendChild(button3);
         }
+        else if (c == arrHead.length-1) {
+            var level = document.createElement('label');
+            level.setAttribute('id', 'stu_label')
+            td.appendChild(level);
+            let activity_score = level.parentNode.parentNode.querySelector('#stu_activity_score').value
+            let unit_num = level.parentNode.parentNode.querySelector('#stu_unit_num').value
+            let bookb_num = level.parentNode.parentNode.querySelector('#stu_bookb_num').value
+            let bookc_num = level.parentNode.parentNode.querySelector('#stu_bookc_num').value
+            if (unit_num >= 20 && bookb_num >= 20 && (bookc_num+bookb_num) >= 50 && activity_score >= 40) {
+                level.innerText = '预备级'
+            }
+            else if (unit_num >= 3 && (bookb_num+bookc_num) >= 20 && activity_score >= 10) {
+                level.innerText = '入门级'
+            }
+            else {
+                level.innerText = '观望级'
+            }
+        }
+
     }
 }
 
-window.onload = function (){
-    createTable()
-    fetch("/populate", {
-        method: "Get",
-    })
-        .then(response => response.json())
-        .then(response => {
-            for (obj in response) {
-                let rowObj = response[obj]
-                addRow(rowObj.student_name, rowObj.student_gender, rowObj.student_iniScore, rowObj._id)
-                // console.log(response[obj].student_name)
-            }
-        })
-}
+// window.onload = function (){
+//     createTable()
+//     fetch("/populate", {
+//         method: "Get",
+//     })
+//         .then(response => response.json())
+//         .then(response => {
+//             for (obj in response) {
+//                 let rowObj = response[obj]
+//                 addRow(rowObj.student_name, rowObj.student_gender, rowObj.student_iniScore, rowObj._id)
+//                 // console.log(response[obj].student_name)
+//             }
+//         })
+// }
 
 function studentRegister(oButton) {
     let formEle = oButton.parentNode.parentNode.querySelectorAll('.stuRegister')
@@ -189,6 +231,9 @@ function studentRegister(oButton) {
             student_name : formEle[0].value,
             student_gender : formEle[1].value,
             student_activity_score : formEle[2].value,
+            student_bookb_num : formEle[3].value,
+            student_bookc_num : formEle[4].value,
+            student_unit_num : formEle[5].value,
         }),
         headers: {
             "Content-Type": "application/json"
@@ -201,14 +246,8 @@ function studentRegister(oButton) {
             console.log(response)
         })
         .then(response => {
-            addRow(formEle[0].value, formEle[1].value, formEle[2].value, uid)
+            addRow(formEle[0].value, formEle[1].value, formEle[2].value, formEle[3].value, formEle[4].value, formEle[5].value, uid)
         })
 }
 
-function login(){
-    fetch("/loginto", {
-        method: "Get",
-    })
-        .then(response => response.json())
-}
 

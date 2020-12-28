@@ -52,10 +52,13 @@ app.post('/delete', bodyparser.json(), function( req, res ){
 app.post('/update',  bodyparser.json(), function( req, res ){
     console.log(req.body)
     // res.json({success: req.body.student_activity_score})
-    collection.replaceOne({_id:mongodb.ObjectId(req.body.student_id)},{student_name:req.body.student_gender
+    collection.replaceOne({_id:mongodb.ObjectId(req.body.student_id)},{student_name:req.body.student_name
         ,student_gender:req.body.student_gender,
         student_activity_score:req.body.student_activity_score
-        ,student_id:req.body.student_id})
+        ,student_id:req.body.student_id,
+        student_bookb_num:req.body.student_bookb_num,
+        student_bookc_num:req.body.student_bookc_num,
+        student_unit_num:req.body.student_unit_num})
         .then(result=>{
             res.json(result)
         })
@@ -69,8 +72,10 @@ app.get('/populate', function( req, res ){
 })
 
 app.get('/loginto', function( req, res ){
-    res.sendFile(__dirname + "/views/index.html");
+    res.sendFile(__dirname + "/views/index.html")
+
 })
+
 
 
 
