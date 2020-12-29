@@ -26,13 +26,17 @@
   </div>
 
   <div id="regForm">
-    <input type="text" class="stuRegister">
-    <input type="text" class="stuRegister">
-    <input type="text" class="stuRegister">
-    <input type="text" class="stuRegister">
-    <input type="text" class="stuRegister">
-    <input type="text" class="stuRegister">
-    <input type="button" id="submitRegForm" value="kk" onclick="studentRegister(this)">
+    <table>
+      <tr>
+        <th><input type="text" class="stuRegister" placeholder="学生姓名"></th>
+        <th><input type="text" class="stuRegister" placeholder="学生其他备注"></th>
+        <th><input type="text" class="stuRegister" placeholder="群活动分"></th>
+        <th><input type="text" class="stuRegister" placeholder="阅读(B级)打卡本数"></th>
+        <th><input type="text" class="stuRegister" placeholder="阅读(C级)打卡本数"></th>
+        <th><input type="text" class="stuRegister" placeholder="拼读打卡单元数"></th>
+        <th><input type="button" id="submitRegForm" value="新增学生的信息" onclick="studentRegister(this)"></th>
+      </tr>
+    </table>
   </div>
 
   <div id="record-section">
@@ -40,21 +44,22 @@
   </div>
 
 
+
   </body>
   <script>
   window.onload = function(){
-  createTable()
-  fetch("/populate", {
-  method: "Get",
-  })
-  .then(response => response.json())
-  .then(response => {
-  for (obj in response) {
-  let rowObj = response[obj]
-  addRow(rowObj.student_name, rowObj.student_gender, rowObj.student_activity_score,rowObj.student_bookb_num,rowObj.student_bookc_num, rowObj.student_unit_num, rowObj._id)
+    createTable()
+    fetch("/populate", {
+      method: "Get",
+    })
+      .then(response => response.json())
+      .then(response => {
+        for (obj in response) {
+          let rowObj = response[obj]
+          addRow(rowObj.student_name, rowObj.student_gender, rowObj.student_activity_score,rowObj.student_bookb_num,rowObj.student_bookc_num, rowObj.student_unit_num, rowObj._id)
   // console.log(response[obj].student_name)
-  }
-  })
+        }
+      })
   }
   </script>
 </html>

@@ -62,7 +62,7 @@ function addRow(filledName, filledGender, filledScore, filledBnum, filledCnum, f
 
             // set the attributes.
             button.setAttribute('type', 'button');
-            button.setAttribute('value', 'Remove');
+            button.setAttribute('value', '删除此行');
             button.setAttribute('id', uid)
 
             // add button's "onclick" event.
@@ -150,7 +150,7 @@ function addRow(filledName, filledGender, filledScore, filledBnum, filledCnum, f
         else if (c > 6 && c < arrHead.length-1) {
             var button3 = document.createElement('input');
             button3.setAttribute('type', 'button');
-            button3.setAttribute('value', 'Update');
+            button3.setAttribute('value', '更新此行');
             button3.setAttribute('style', 'width:100%');
 
             button3.onclick = function(){
@@ -185,6 +185,7 @@ function addRow(filledName, filledGender, filledScore, filledBnum, filledCnum, f
             }
             td.appendChild(button3);
         }
+
         else if (c == arrHead.length-1) {
             var level = document.createElement('label');
             level.setAttribute('id', 'stu_label')
