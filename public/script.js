@@ -5,7 +5,7 @@ console.log("hello world :o");
 
 
 var arrHead = new Array();
-arrHead = ['', '学生姓名', '学生其他备注', '群活动分', '阅读(B级)打卡本数', '阅读(C级)打卡本数', '拼读打卡单元数', '更新数据', '等级']; // table headers.
+arrHead = ['', '学生姓名', '学生其他备注', '群活动分', '阅读(B级)打卡本数', '阅读(C级)打卡本数', '拼读打卡单元数', '等级', '更新数据']; // table headers.
 
 // first create a TABLE structure by adding few headers.
 function createTable() {
@@ -62,8 +62,9 @@ function addRow(filledName, filledGender, filledScore, filledBnum, filledCnum, f
 
             // set the attributes.
             button.setAttribute('type', 'button');
-            button.setAttribute('value', '删除此行');
+            button.setAttribute('value', '删除此学生信息');
             button.setAttribute('id', uid)
+            button.setAttribute('class', 'removeBtn')
 
             // add button's "onclick" event.
             button.setAttribute('onclick', 'removeRow(this)');
@@ -148,11 +149,30 @@ function addRow(filledName, filledGender, filledScore, filledBnum, filledCnum, f
             }
         }
         else if (c > 6 && c < arrHead.length-1) {
+            var level = document.createElement('label');
+            level.setAttribute('id', 'stu_label')
+            td.appendChild(level);
+            let activity_score = level.parentNode.parentNode.querySelector('#stu_activity_score').value
+            let unit_num = level.parentNode.parentNode.querySelector('#stu_unit_num').value
+            let bookb_num = level.parentNode.parentNode.querySelector('#stu_bookb_num').value
+            let bookc_num = level.parentNode.parentNode.querySelector('#stu_bookc_num').value
+            if (unit_num >= 20 && bookb_num >= 20 && (bookc_num+bookb_num) >= 50 && activity_score >= 40) {
+                level.innerText = '预备级'
+            }
+            else if (unit_num >= 3 && (bookb_num+bookc_num) >= 20 && activity_score >= 10) {
+                level.innerText = '入门级'
+            }
+            else {
+                level.innerText = '观望级'
+            }
+        }
+        else if (c == arrHead.length-1) {
             var button3 = document.createElement('input');
             button3.setAttribute('type', 'button');
             button3.setAttribute('value', '更新此行');
             button3.setAttribute('style', 'width:100%');
 
+            td.appendChild(button3);
             button3.onclick = function(){
                 stu_name = button3.parentNode.parentNode.querySelector('#stu_name')
                 stu_gender = button3.parentNode.parentNode.querySelector('#stu_gender')
@@ -162,7 +182,15 @@ function addRow(filledName, filledGender, filledScore, filledBnum, filledCnum, f
                 stu_unit_num = button3.parentNode.parentNode.querySelector('#stu_unit_num')
 
                 let label = button3.parentNode.parentNode.querySelector('#stu_label')
-
+                if (stu_unit_num.value >= 20 && stu_bookb_num.value >= 20 && (stu_bookc_num.value+stu_bookb_num.value) >= 50 && stu_activity_score.value >= 40) {
+                    label.innerText = '预备级'
+                }
+                else if (stu_unit_num.value >= 3 && (stu_bookb_num.value+stu_bookc_num.value) >= 20 && stu_activity_score.value >= 10) {
+                    label.innerText = '入门级'
+                }
+                else {
+                    label.innerText = '观望级'
+                }
                 fetch("/update", {
                     method: "POST",
                     body: JSON.stringify({
@@ -181,27 +209,8 @@ function addRow(filledName, filledGender, filledScore, filledBnum, filledCnum, f
                     .then(response => response.json())
                     .then(response => {
                         console.log("sent");
-                    })
-            }
-            td.appendChild(button3);
-        }
 
-        else if (c == arrHead.length-1) {
-            var level = document.createElement('label');
-            level.setAttribute('id', 'stu_label')
-            td.appendChild(level);
-            let activity_score = level.parentNode.parentNode.querySelector('#stu_activity_score').value
-            let unit_num = level.parentNode.parentNode.querySelector('#stu_unit_num').value
-            let bookb_num = level.parentNode.parentNode.querySelector('#stu_bookb_num').value
-            let bookc_num = level.parentNode.parentNode.querySelector('#stu_bookc_num').value
-            if (unit_num >= 20 && bookb_num >= 20 && (bookc_num+bookb_num) >= 50 && activity_score >= 40) {
-                level.innerText = '预备级'
-            }
-            else if (unit_num >= 3 && (bookb_num+bookc_num) >= 20 && activity_score >= 10) {
-                level.innerText = '入门级'
-            }
-            else {
-                level.innerText = '观望级'
+                    })
             }
         }
 

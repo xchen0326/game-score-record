@@ -24,7 +24,7 @@
 }
 
 table, table td, table th{
-  border : 1px solid #000000;
+  /*border : 1px solid #000000;*/
   margin-left: auto;
   margin-right: auto;
 }
@@ -32,6 +32,11 @@ table, table td, table th{
 .score_mg {
   width: 50%;
 }
+
+.removeBtn {
+  color: #ff0000;
+}
+
 input, select {
   border-radius: 4px;
   height: 30px;
