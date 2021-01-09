@@ -76,6 +76,11 @@ app.get('/loginto', function( req, res ){
 
 })
 
+app.get('/upload_xiaodaka', function( req, res ){
+    res.sendFile(__dirname + "/views/upload-xiaodaka-excel.html")
+
+})
+
 
 
 
